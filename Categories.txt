@@ -1,1 +1,8 @@
-ID,name,brand,origin,type,
+
+M01,Male,
+F01,Female,
+U01,Unisex,
+B01,daily,
+L02,luxury,
+T03,travel,
+D04,dress,
