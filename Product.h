@@ -1,48 +1,57 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<fstream>
+#include<cstring>
+#include<map>
+#include<utility>
 using namespace std;
 
 #ifndef PRODUCT_H
 #define PRODUCT_H
 struct Description
 {
-    string parameter;
-    double size;//in milimeter
+    string strap;//material
     string color;
+    string brand;
+    string origin;
+    string gender;
+    string type; // daily dress complicated pilot field dive racing travel luxury other
 };
 class Product
 {
     string ID;
-    string categoryID;
     string name;
     double price;
-    bool availability;
+    int quantity;
+    Description feature;
 public:
+    friend class OrderDetail;
+    static map<string, Product> productList;
+    static int numberOfProduct;
+    friend class Category;
     Product();
-    Product(const string ID, const string categoryID, const string &name,const double &price, const bool availability);
     //Get information
     string getID() const;
-    string getCategoryID() const;
     string getName() const;
     double getPrice() const;
-    bool getAvailability() const;
-    //Mutator functions
-    void setID(const string &ID);
-    void setCategoryID(const string &categoryID);
-    void setName(const string &name);
-    void setPrice(const double &price);
-    void setAvailability(const bool availability);
-};
-class Watch : public Product
-{
-   Description feature;
-public:
-    Watch();
-    Watch(const string ID, const string CategoryID, const string &name,const double &price, const bool availability, const Description &feature);
-    //Get information
+    void setQuantity();
+    int getQuantity();
     Description getFeature() const;
     //Mutator functions
-    void setFeature(const Description &feature);
-    friend istream &operator>>(istream &is, Watch &myWatch);
-    friend ostream &operator<<(ostream &os, const Watch &myWatch);
+    void setID(const string &ID);
+    void setName(const string &name);
+    void setPrice(const double &price);
+    void setFeature();
+    friend istream &operator>>(istream &is, Product &myProduct);
+    friend ostream &operator<<(ostream &os, const Product &myProduct);
+    static void ProductLoad();
+    static int getNumberOfProduct();
+    static void ReadProduct();
+    static void FindProduct();
+    static void CreateProduct();
+    static int ReferenceConstraint(Product product);
+    static void Eraseproduct();
+    static void UpdateProduct();
 };
+
 #endif // PRODUCT_H
+
