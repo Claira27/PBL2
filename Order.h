@@ -1,5 +1,10 @@
-#include<bits/stdc++.h>
-#include"Date.h"
+#include<iostream>
+#include<cstring>
+#include<map>
+#include<ctime>
+#include<iomanip>
+#include<sstream>
+
 using namespace std;
 
 #ifndef ORDER_H
@@ -8,23 +13,37 @@ using namespace std;
 class Order
 {
     string ID;
-    string customerID;
-    Date invoiceDate;
+    string customerPhone;
+    string invoiceDate;
     double amountDue;
 public:
+    friend class OrderDetail;
+    static int numberOfOrder;
+    static string lastID;
+    static map<string, Order> orderList;
     Order();
-    Order(string ID, string customerID, Date invoiceDate, double amountDue);
     //Get information
     string getID() const;
-    string getCustomerID() const;
-    Date getInvoiceDate() const;
-    double getAmountDue() const;
+    string getCustomerPhone() const;
+    string getInvoiceDate() const;
+    double getAmountDue();
     //Mutator functions
     void setID(const string &ID);
-    void setCustomerID(const string &customerID);
-    void setInvoiceDate(const Date &invoiceDate);
-    void setAmountDue(const double &amountDue);
+    void setCustomerPhone(const string &customerPhone);
+    time_t setInvoiceDate(const string &invoiceDate);
+    void setAmountDue();
+    //Functions for CRUD
     friend istream &operator>>(istream &is, Order &myOrder);
     friend ostream &operator<<(ostream &os, const Order &myOrder);
+    static void OrderLoad();
+    static int getNumberOfOrder();
+    static string generateOrderID(const string &myid);
+    static void ReadOrder();
+    static void FindOrder();
+    static void CreateOrder();
+    static int ReferenceConstraint(const string &ID);
+    static void EraseOrder();
+    static void DeleteOrder();
+    static void UpdateOrder();
 };
 #endif // ORDER_H
