@@ -1,5 +1,5 @@
-#ifndef PRODUCT_H
-#define PRODUCT_H
+#ifndef ORDER_H
+#define ORDER_H
 
 #include<iostream>
 #include<conio.h>
@@ -15,56 +15,46 @@
 #include<vector>
 #include<map>
 #include<set>
+
 using namespace std;
 
-
-struct Description
-{
-    string strap;//material
-    string color;
-    string brand;
-    string origin;
-    string gender;
-    string type; // daily dress complicated pilot field dive racing travel luxury other
-};
 class Watch;
-class Category;
-class Product
+class Customer;
+class Order
 {
     string ID;
-    string name;
-    double price;
-    int quantity;
-    Description feature;
+    string customerPhone;
+    string invoiceDate;
+    double amountDue;
 public:
     friend class OrderDetail;
-    static map<string, Product> productList;
-    static int numberOfProduct;
-    friend class Category;
-    Product();
+    static int numberOfOrder;
+    static string lastID;
+    static map<string, Order> orderList;
+    Order();
     //Get information
     string getID() const;
-    string getName() const;
-    double getPrice() const;
-    void setQuantity();
-    int getQuantity();
-    Description getFeature() const;
+    string getCustomerPhone() const;
+    string getInvoiceDate() const;
+    double getAmountDue();
     //Mutator functions
     void setID(const string &ID);
-    void setName(const string &name);
-    void setPrice(const double &price);
-    void setFeature();
-    friend istream &operator>>(istream &is, Product &myProduct);
-    friend ostream &operator<<(ostream &os, const Product &myProduct);
-    static void ProductLoad();
-    static int getNumberOfProduct();
-    static void ReadProduct();
-    static void FindProduct();
-    static void CreateProduct();
-    static int ReferenceConstraint(string ID);
-    static void Eraseproduct();
-    static void UpdateProduct();
+    void setCustomerPhone(const string &customerPhone);
+    time_t setInvoiceDate(const string &invoiceDate);
+    void setAmountDue();
+    //Functions for CRUD
+    friend istream &operator>>(istream &is, Order &myOrder);
+    friend ostream &operator<<(ostream &os, Order &myOrder);
+    static void OrderLoad();
+    static int getNumberOfOrder();
+    static string generateOrderID(const string &myid);
+    static void ReadOrder();
+    static void FindOrder();
+    static void CreateOrder();
+    static int ReferenceConstraint(const string &ID);
+    static void EraseOrder();
+    static void DeleteOrder();
+    static void UpdateOrder();
+    static void DeleteSale();
 };
-
-#endif // PRODUCT_H
-
+#endif // ORDER_H
