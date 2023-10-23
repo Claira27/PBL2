@@ -1,8 +1,16 @@
 #include"Order.h"
-#include"OrderDetail.h"
 #include"Customer.h"
 #include"Watch.h"
+#include"OrderDetail.h"
 #include"Product.h"
+// ANSI color codes for text
+const string ANSI_RESET = "\033[0m";
+const string ANSI_RED = "\033[31m";
+const string ANSI_GREEN = "\033[32m";
+const string ANSI_YELLOW = "\033[33m";
+const string ANSI_CYAN = "\033[36m";
+const string ANSI_BOLD = "\033[1m";
+const string ANSI_BLINK = "\033[5m";
 
 int Order::numberOfOrder = 0;
 map<string, Order> Order::orderList;
@@ -75,19 +83,19 @@ istream &operator>>(istream &is, Order &myOrder)
     getline(is,myOrder.invoiceDate, ',');
     return is;
 }
-ostream &operator<<(ostream &os, const Order &myOrder)
+ostream &operator<<(ostream &os, Order &myOrder)
 {
-    //time_t time = setInvoiceDate(myOrder.invoiceDate);
     string customerName = Customer::customerList.find(myOrder.getCustomerPhone())->second.getName();
-    os<<myOrder.ID<<"\t"<<myOrder.customerPhone<<"\t"<<customerName<<"\t"<<myOrder.getInvoiceDate()<<endl;
+    os<< ANSI_GREEN << myOrder.getID()<<"\t"<<myOrder.getCustomerPhone()<<"\t"<<customerName
+    <<"\t"<<myOrder.getInvoiceDate()<<"\t"<<myOrder.getAmountDue()<< ANSI_RESET<<endl;
     return os;
 }
-void OrderLoad()
+void Order::OrderLoad()
 {
     ifstream inputFile("Orders.txt");
     if (!inputFile)
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     Order order;
@@ -95,12 +103,10 @@ void OrderLoad()
     {
         Order::orderList[order.getID()] = order; // Add a new order
     }
-    cout << "Information uploaded from file." << endl;
     inputFile.close();
 }
-int getNumberOfOrder()
-{
-    return Order::numberOfOrder;
+int Order::getNumberOfOrder() {
+    return numberOfOrder;
 }
 string Order::generateOrderID(const string &myid)
 {
@@ -116,17 +122,22 @@ string Order::generateOrderID(const string &myid)
     }
     else
     {
-        cout << "Exceeded the allowed number of order" << endl;
+        cout <<ANSI_YELLOW<< "Exceeded the allowed number of order" <<ANSI_RESET<< endl;
         return myid;
     }
 }
-void ReadOrder()
+void Order::ReadOrder()
 {
-    for(const auto& pair : Order::orderList)
+    system("cls");
+    cout << "Fetching order data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<< ANSI_CYAN <<"Order ID\tCustomer Phone\tCustomer name\tInvoice date\tAmount Due(VND)"<< ANSI_RESET<<endl;
+    for(auto& pair : Order::orderList)
         cout<<pair.second;
 }
-void FindOrder()
+void Order::FindOrder()
 {
+    system("cls");
     string ID;
     cout<<"Enter order ID: "; getline(cin, ID);
     auto currentOrder = Order::orderList.find(ID);
@@ -136,17 +147,18 @@ void FindOrder()
     }
     else
     {
-        cout<<"Non-existing Order!"<<endl;
+        cout<<ANSI_YELLOW<<"Non-existing Order!"<<ANSI_RESET<<endl;
         return;
     }
 }
 void Order::CreateOrder()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Orders.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new order
@@ -157,7 +169,7 @@ void Order::CreateOrder()
         cin>>num;
         if(num + stoi(orderList.rbegin()->first) > 999999)
         {
-            cout << "Exceeded the allowed number of orders" << endl;
+            cout<<ANSI_YELLOW << "Exceeded the allowed number of orders"<<ANSI_RESET << endl;
         }
     }while(num + stoi(lastID) > 999999);
     //Create new orders
@@ -175,22 +187,24 @@ void Order::CreateOrder()
         // add new order's information
         Order newOrder;
         string customerPhone, invoiceDate;
-        double amountDue;
         cout << "Enter customer Phone: ";
         getline(cin, customerPhone);
 
         //create a new customer if customer does not already exist
         if(!Customer::customerList.count(customerPhone))
         {
-            cout<<"This is new customer. Create new customer"<<endl;
+            cout<<ANSI_CYAN<<"This is new customer. Create new customer"<<ANSI_RESET<<endl;
             Customer::createNewCustomer(customerPhone);
         }
-        cout << "Enter amountDue: ";
-        cin>>amountDue;
+
+        //CREATE ORDER DETAIL
+        OrderDetail::CreateSale(ID);
+
         // current time of generating the invoice
         time_t current_time = time(nullptr);
         invoiceDate = ctime(&current_time);
-        OrderDetail::CreateSale(ID);
+
+        //set new order
         newOrder.setID(ID);
         newOrder.setCustomerPhone(customerPhone);
         newOrder.setInvoiceDate(invoiceDate);
@@ -204,25 +218,29 @@ void Order::CreateOrder()
                   <<newOrder.getAmountDue()<<endl;
         lastID = orderList.rbegin()->first;
         numberOfOrder++;
+
     }
 
     outputFile.close();
-    cout<<"Information written to file."<<endl;
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<<ANSI_GREEN<<"Information written to file."<<ANSI_RESET<<endl;
 }
-int ReferenceConstraint(const string &ID)
+int Order::ReferenceConstraint(const string &ID)
 {
     for(auto orderDetail : OrderDetail::saleList)
         if(orderDetail.second.getOrderID() == ID)
             return 1;
     return 0;
 }
-void EraseOrder()
+void Order::EraseOrder()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Orders.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new order
@@ -233,7 +251,7 @@ void EraseOrder()
         cin>>num;
         if(num > Order::numberOfOrder)
         {
-            cout << "Exceeded the number of existing orders" << endl;
+            cout<<ANSI_YELLOW << "Exceeded the number of existing orders"<<ANSI_RESET << endl;
         }
     }while(num > Order::numberOfOrder);
     //erase order
@@ -251,10 +269,11 @@ void EraseOrder()
                 Order::numberOfOrder--;
                 i++;
             }
+            else cout<<ANSI_YELLOW<<"Reference constraint!"<<ANSI_RESET<<endl;
         }
         else
         {
-            cout<<"Non-existing order!"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing order!"<<ANSI_RESET<<endl;
         }
     }
     //Overwriting the file to erase order
@@ -267,20 +286,18 @@ void EraseOrder()
                   <<currentOrder.second.getAmountDue()<<endl;
     }
     outputFile.close();
-    cout<<num<<" Orders have been erased."<<endl;
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<<ANSI_YELLOW<<num<<" Orders have been erased."<<ANSI_RESET<<endl;
 }
-void DeleteOrder()
+void Order::UpdateOrder()
 {
-    if(OrderDetail::saleList.empty())
-        Order::orderList.clear();
-}
-void UpdateOrder()
-{
+    system("cls");
     ofstream outputFile;
     outputFile.open("Orders.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of order
@@ -291,7 +308,7 @@ void UpdateOrder()
         cin>>num;
         if(num > Order::numberOfOrder)
         {
-            cout << "Exceeded the number of existing orders" << endl;
+            cout<<ANSI_YELLOW << "Exceeded the number of existing orders"<<ANSI_RESET << endl;
         }
     }while(num > Order::numberOfOrder);
     //erase order
@@ -315,10 +332,11 @@ void UpdateOrder()
                 Order::orderList[ID] = newOrder;
                 i++;
             }
+            else cout<<ANSI_YELLOW<<"Reference constraint!"<<ANSI_RESET<<endl;
         }
         else
         {
-            cout<<"Non-existing order!"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing order!"<<ANSI_RESET<<endl;
         }
     }
     //Overwriting the file to erase order
@@ -331,5 +349,50 @@ void UpdateOrder()
                   <<currentOrder.second.getAmountDue()<<endl;
     }
     outputFile.close();
-    cout<<num<<" Orders have been erased."<<endl;
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<<ANSI_GREEN<<num<<" Orders have been erased."<<ANSI_RESET<<endl;
+}
+void Order::DeleteOrder()
+{
+    system("cls");
+    ofstream outputFile;
+    outputFile.open("OrderDetail.txt");
+    if(!outputFile.is_open())
+    {
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        return;
+    }
+    if(OrderDetail::saleList.empty())
+    {
+        orderList.clear();
+        outputFile<<endl;
+        cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+        sleep(2000000); // Sleep for 2 seconds
+        cout<<ANSI_GREEN<<"You are order data is clear now!"<<ANSI_RESET<<endl;
+    }
+    else
+    {
+        int choice;
+        cout<<ANSI_RED<<"Sale list is not empty, make sure you want to delete all sales data? (YES/NO):(1/0)"<<ANSI_RESET<<endl;
+        cin>>choice;
+        if(choice)
+        {
+                OrderDetail::DeleteSale();
+                if(!OrderDetail::saleList.empty())
+                {
+                    cout<<ANSI_RED<<"Order data can not be cleared as sale list is still not empty!"<<ANSI_RESET<<endl;
+                }
+                else
+                {
+                    orderList.clear();
+                    outputFile<<endl;
+                    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+                    sleep(2000000); // Sleep for 2 seconds
+                    cout<<ANSI_GREEN<<"You are order data is clear now!"<<ANSI_RESET<<endl;
+                }
+        }
+        else return;
+    }
+    outputFile.close();
 }
