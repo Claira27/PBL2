@@ -36,7 +36,7 @@ istream &operator>>(istream &is, Category &myCategory)
 }
 ostream &operator<<(ostream &os, const Category &myCategory)
 {
-    os<<myCategory.ID<<"\t"<<myCategory.name<<endl;
+    os<< ANSI_GREEN<<myCategory.ID<<"\t"<<myCategory.name<<ANSI_RESET <<endl;
     return os;
 }
 void Category::CategoryLoad()
@@ -44,7 +44,7 @@ void Category::CategoryLoad()
     ifstream inputFile("Categories.txt");
     if (!inputFile)
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     Category category;
@@ -53,7 +53,6 @@ void Category::CategoryLoad()
         categoryList[category.getID()] = category; // Add a new customer
         numberOfCategory++;
     }
-    cout << "Information uploaded from file." << endl;
     inputFile.close();
 }
 int Category::getNumberOfCategory()
@@ -62,11 +61,16 @@ int Category::getNumberOfCategory()
 }
 void Category::ReadCategory()
 {
+    system("cls");
+    cout << "Fetching category data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<< ANSI_CYAN <<"Category ID\tName"<< ANSI_RESET<<endl;
     for(const auto& pair : categoryList)
             cout<<pair.second;
 }
 void Category::FindCategory()
 {
+    system("cls");
     string ID;
     cout<<"Finding category ID: "; getline(cin, ID);
     auto currentCategory = categoryList.find(ID);
@@ -76,17 +80,18 @@ void Category::FindCategory()
     }
     else
     {
-        cout<<"Non-existing category ID"<<endl;
+        cout<<ANSI_YELLOW<<"Non-existing category ID"<<ANSI_RESET<<endl;
         return;
     }
 }
 void Category::CreateCategory()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Categories.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new categories
@@ -97,7 +102,7 @@ void Category::CreateCategory()
         cin>>num;
         if(num  > 10)
         {
-            cout << "No more than 10 categories to create at a time" << endl;
+            cout<<ANSI_YELLOW << "No more than 10 categories to create at a time"<<ANSI_RESET << endl;
         }
     }while(num > 10);
     //Create new category
@@ -123,14 +128,17 @@ void Category::CreateCategory()
         }
         else
         {
-            cout<<"Category ID has already existed!"<<endl;
+            cout<<ANSI_YELLOW<<"Category ID has already existed!"<<ANSI_RESET<<endl;
         }
     }
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
     outputFile.close();
-    cout<<"Information written to file."<<endl;
+    cout<<ANSI_GREEN<<"Information written to file."<<ANSI_RESET<<endl;
 }
 int Category::ReferenceConstraint(string ID)
 {
+    system("cls");
     Category myCategory = categoryList.find(ID)->second;
     for(auto currentProduct : Product::productList)
     {
@@ -143,11 +151,12 @@ int Category::ReferenceConstraint(string ID)
 }
 void Category::EraseCategory()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Categories.txt");
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of categories to erase
@@ -158,7 +167,7 @@ void Category::EraseCategory()
         cin>>num;
         if(num  > numberOfCategory)
         {
-            cout << "Exceeded the number of existing categories" << endl;
+            cout<<ANSI_YELLOW<< "Exceeded the number of existing categories"<<ANSI_RESET<< endl;
         }
     }while(num > numberOfCategory);
     //Erase categories
@@ -178,10 +187,10 @@ void Category::EraseCategory()
                 numberOfCategory--;
                 i++;
             }
-            else cout<<"REFERENCE CONSTRAINT"<<endl;
+            else cout<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
         }
         else
-            cout<<"Non-existing category ID"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing category ID"<<ANSI_RESET<<endl;
     }
     //Overwriting the file to erase catogories
     outputFile<<endl;
@@ -192,15 +201,18 @@ void Category::EraseCategory()
                       <<currentCategory.second.getName()<<","<<endl;
     }
     outputFile.close();
-    cout<<num<<" Categories have been erased."<<endl;
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<<ANSI_GREEN<<num<<" Categories have been erased."<<ANSI_RESET<<endl;
 }
 void Category::UpdateCategory()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Categories.txt");
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of categories to update
@@ -211,7 +223,7 @@ void Category::UpdateCategory()
         cin>>num;
         if(num  > numberOfCategory)
         {
-            cout << "Exceeded the number of existing customers" << endl;
+            cout <<ANSI_YELLOW<< "Exceeded the number of existing customers" <<ANSI_RESET<< endl;
         }
     }while(num > numberOfCategory);
     //Update categories
@@ -223,7 +235,7 @@ void Category::UpdateCategory()
         cout<<"Category ID "<<i<<": "; getline(cin, ID);
         if(!categoryList.count(ID))
         {
-            cout<<"Non-existing category ID"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing category ID"<<ANSI_RESET<<endl;
         }
         else
         {
@@ -240,7 +252,7 @@ void Category::UpdateCategory()
                 categoryList[ID] = currentCategory;
                 i++;
             }
-            else cout<<"REFERENCE CONSTRAINT"<<endl;
+            else cout<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
         }
     }
     //Overwriting the file to update categories
@@ -249,5 +261,7 @@ void Category::UpdateCategory()
         outputFile<<currentCategogy.second.getID()<<","
                   <<currentCategogy.second.getName()<<","<<endl;
     outputFile.close();
-    cout<<num<<" Updates have been made."<<endl;
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<<ANSI_GREEN<<num<<" Updates have been made."<<ANSI_RESET<<endl;
 }
