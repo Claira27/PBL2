@@ -1,18 +1,28 @@
+#ifndef ORDERDETAIL_H
+#define ORDERDETAIL_H
 #include<iostream>
-#include<iomanip>
-#include<string>
-#include<map>
+#include<conio.h>
+#include<fstream>
+#include<cstring>
 #include<ctime>
+#include<iomanip>
+#include<sstream>
+#include<iomanip>
+#include<cstdlib> // For system("cls")
+#include<unistd.h> // For sleep (sleep function on Unix-like systems)
+#include<windows.h>
+#include<vector>
+#include<map>
 #include<set>
 using namespace std;
 
-#ifndef ORDERDETAIL_H
-#define ORDERDETAIL_H
 struct Warranty
 {
     string expiry; //duration is 2 years;
     string coverage; //Battery Replacement: Some warranties for watches may cover the replacement of the battery, strap or bracelet within a specified time frame.
 };
+class Order;
+class Product;
 class OrderDetail
 {
     string ID;
