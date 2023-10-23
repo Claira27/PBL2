@@ -1,5 +1,13 @@
 #include "Customer.h"
 #include "Order.h"
+// ANSI color codes for text
+const string ANSI_RESET = "\033[0m";
+const string ANSI_RED = "\033[31m";
+const string ANSI_GREEN = "\033[32m";
+const string ANSI_YELLOW = "\033[33m";
+const string ANSI_CYAN = "\033[36m";
+const string ANSI_BOLD = "\033[1m";
+const string ANSI_BLINK = "\033[5m";
 
 int Customer::numberOfCustomer=0;
 map<string, Customer> Customer::customerList;
@@ -34,7 +42,7 @@ istream &operator>>(istream &is, Customer &customer)
 }
 ostream &operator<<(ostream &os, const Customer &myCustomer)
 {
-    os<<myCustomer.phone<<"\t"<<myCustomer.name<<endl;
+    os<< ANSI_GREEN <<myCustomer.phone<<"\t"<<myCustomer.name<< ANSI_RESET <<endl;
     return os;
 }
 void Customer::CustomerLoad()
@@ -42,7 +50,7 @@ void Customer::CustomerLoad()
     ifstream inputFile("Customers.txt");
     if (!inputFile)
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED <<"Error: Unable to open the file."<< ANSI_RESET<<endl;
         return;
     }
     Customer customer;
@@ -51,7 +59,6 @@ void Customer::CustomerLoad()
         customerList[customer.getPhone()] = customer; // Add a new customer
         numberOfCustomer++;
     }
-    cout << "Information uploaded from file." << endl;
     inputFile.close();
 }
 int Customer::getNumberOfCustomer()
@@ -60,11 +67,16 @@ int Customer::getNumberOfCustomer()
 }
 void Customer::ReadCustomer()
 {
+    system("cls");
+    cout << "Fetching customer data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<< ANSI_CYAN <<"Customer phone\tName"<< ANSI_RESET<<endl;
     for(const auto& pair : customerList)
         cout<<pair.second;
 }
 void Customer::FindCustomer()
 {
+    system("cls");
     string phone;
     cout<<"Finding customer: "; getline(cin, phone);
     auto currentCustomer = customerList.find(phone);
@@ -74,17 +86,18 @@ void Customer::FindCustomer()
     }
     else
     {
-        cout<<"Non-existing customer!"<<endl;
+        cout<<ANSI_YELLOW<<"Non-existing customer!"<< ANSI_RESET<<endl;
         return;
     }
 }
 void Customer::CreateCustomerList()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Customers.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED <<"Error: Unable to open the file."<< ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new customers
@@ -95,7 +108,7 @@ void Customer::CreateCustomerList()
         cin>>num;
         if(num > 50)
         {
-            cout << "Exceeded the allowed number of new customers to be created mutually, stream file instead!" << endl;
+            cout <<ANSI_YELLOW<< "Exceeded the allowed number of new customers to be created mutually, stream file instead!" << ANSI_RESET<< endl;
         }
     }while(num  > 50);
     //Create new customer
@@ -110,7 +123,7 @@ void Customer::CreateCustomerList()
         getline(cin, phone);
         if(customerList.count(phone))
         {
-            cout<<"Customer already existed!"<<endl;
+            cout<<ANSI_YELLOW<<"Customer already existed!"<< ANSI_RESET<<endl;
             num++;
         }
         newCustomer.setPhone(phone);
@@ -121,17 +134,19 @@ void Customer::CreateCustomerList()
                   <<newCustomer.getName()<<","<<endl;
         numberOfCustomer++;
     }
-
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
     outputFile.close();
-    cout<<"Information written to file."<<endl;
+    cout<<ANSI_GREEN<<"Information written to file."<< ANSI_RESET<<endl;
 }
 void Customer::createNewCustomer(const string &phone)
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Customers.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED <<"Error: Unable to open the file."<< ANSI_RESET<<endl;
         return;
     }
     Customer newCustomer;
@@ -156,11 +171,12 @@ int Customer::ReferenceConstraint(const string &phone)
 }
 void Customer::EraseCustomer()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Customers.txt");
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED <<"Error: Unable to open the file."<< ANSI_RESET<<endl;
         return;
     }
     //Enter the number of customers to erase
@@ -171,7 +187,7 @@ void Customer::EraseCustomer()
         cin>>num;
         if(num  > numberOfCustomer)
         {
-            cout << "Exceeded the number of existing customers" << endl;
+            cout<<ANSI_YELLOW << "Exceeded the number of existing customers" << ANSI_RESET<< endl;
         }
     }while(num > numberOfCustomer);
     //erase customers
@@ -189,10 +205,11 @@ void Customer::EraseCustomer()
                 numberOfCustomer--;
                 i++;
             }
+            else cout<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
         }
         else
         {
-            cout<<"Non-existing customer!"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing customer!"<< ANSI_RESET<<endl;
         }
     }
     //Overwriting the file to erase customers
@@ -202,16 +219,19 @@ void Customer::EraseCustomer()
         outputFile<<currentCustomer.second.getPhone()<<","
                   <<currentCustomer.second.getName()<<","<<endl;
     }
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
     outputFile.close();
-    cout<<num<<" Customers have been erased."<<endl;
+    cout<<ANSI_GREEN<<num<<" Customers have been erased."<< ANSI_RESET<<endl;
 }
 void Customer::UpdateCustomer()
 {
+    system("cls");
     ofstream outputFile;
     outputFile.open("Customers.txt");
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED <<"Error: Unable to open the file."<< ANSI_RESET<<endl;
         return;
     }
     //Enter the number of customers to update
@@ -222,7 +242,7 @@ void Customer::UpdateCustomer()
         cin>>num;
         if(num  > numberOfCustomer)
         {
-            cout << "Exceeded the number of existing customers" << endl;
+            cout <<ANSI_YELLOW<< "Exceeded the number of existing customers" << ANSI_RESET<< endl;
         }
     }while(num > numberOfCustomer);
     //Update customers
@@ -248,10 +268,11 @@ void Customer::UpdateCustomer()
                 customerList[phone] = newCustomer;
                 i++;
             }
+            else cout<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
         }
         else
         {
-            cout<<"Non-existing customer!"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing customer!"<< ANSI_RESET<<endl;
         }
     }
     //Overwriting the file to update customers
@@ -260,6 +281,8 @@ void Customer::UpdateCustomer()
         outputFile<<currentCustomer.second.getPhone()<<","
                   <<currentCustomer.second.getName()<<","<<endl;
     outputFile.close();
-    cout<<num<<" Updates have been made."<<endl;
+    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<<ANSI_GREEN<<num<<" Updates have been made."<< ANSI_RESET<<endl;
 }
 
