@@ -3,6 +3,15 @@
 #include"Product.h"
 #include"Watch.h"
 
+// ANSI color codes for text
+const string ANSI_RESET = "\033[0m";
+const string ANSI_RED = "\033[31m";
+const string ANSI_GREEN = "\033[32m";
+const string ANSI_YELLOW = "\033[33m";
+const string ANSI_CYAN = "\033[36m";
+const string ANSI_BOLD = "\033[1m";
+const string ANSI_BLINK = "\033[5m";
+
 int OrderDetail::sales = 0;// the number of watches sold out
 map<string,OrderDetail> OrderDetail::saleList;
 
@@ -66,8 +75,8 @@ istream &operator>>(istream &is, OrderDetail &myOrderDetail)
 }
 ostream &operator<<(ostream &os, const OrderDetail &myOrderDetail)
 {
-    os<<myOrderDetail.ID<<"\t"<<myOrderDetail.orderID<<"\t"<<myOrderDetail.IDserie<<"\t"
-    <<myOrderDetail.warranty.expiry<<"\t"<<myOrderDetail.warranty.coverage<<endl;
+    os<< ANSI_GREEN<<myOrderDetail.orderID<<"\t"<<myOrderDetail.IDserie<<"\t"
+    <<myOrderDetail.warranty.expiry<<"\t"<<myOrderDetail.warranty.coverage<< ANSI_RESET<<endl;
     return os;
 }
 void OrderDetail::SaleLoad()
@@ -75,7 +84,7 @@ void OrderDetail::SaleLoad()
     ifstream inputFile("OrderDetail.txt");
     if (!inputFile)
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     OrderDetail orderdetail;
@@ -85,7 +94,6 @@ void OrderDetail::SaleLoad()
         saleList[orderdetail.getID()] = orderdetail; // Add a new customer
         sales++;
     }
-    cout << "Information uploaded from file." << endl;
     inputFile.close();
 }
 int OrderDetail::getSales()
@@ -94,11 +102,15 @@ int OrderDetail::getSales()
 }
 void OrderDetail::ReadSale()
 {
+    cout << "Fetching order detail data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    sleep(2000000); // Sleep for 2 seconds
+    cout<< ANSI_CYAN <<"Order ID\tIDserie\tExpiry Due\tQuantity\tCoverage"<< ANSI_RESET<<endl;
     for(const auto& pair : saleList)
         cout<<pair.second;
 }
 void OrderDetail::FindSale()
 {
+    system("clear");
     string ID;
     cout<<"Finding sale ID: "; getline(cin, ID);
     auto currentSale = saleList.find(ID);
@@ -108,17 +120,18 @@ void OrderDetail::FindSale()
     }
     else
     {
-        cout<<"Non-existing sale ID"<<endl;
+        cout<<ANSI_YELLOW<<"Non-existing sale ID"<<ANSI_RED<<endl;
         return;
     }
 }
 void OrderDetail::CreateSale(const string &orderID)
 {
+
     ofstream outputFile;
     outputFile.open("OrderDetail.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new sales
@@ -129,7 +142,7 @@ void OrderDetail::CreateSale(const string &orderID)
         cin>>num;
         if(num > 50)
         {
-            cout << "Exceeded the allowed number of new sales to be created mutually, stream file instead!" << endl;
+            cout<<ANSI_YELLOW << "Exceeded the allowed number of new sales to be created mutually, stream file instead!"<<ANSI_RESET << endl;
         }
     }while(num  > 50);
     //Create new sales
@@ -145,10 +158,11 @@ void OrderDetail::CreateSale(const string &orderID)
             int number;
             cout << "Enter number: ";
             cin>>number;
-            if(number > i) cout<<"Exceeding the number of sales of this order"<<endl;
+            if(number > i) cout<<ANSI_RESET<<"Exceeding the number of sales of this order"<<ANSI_RESET<<endl;
             else
             {
-                if(number > Product::productList.find(productID)->second.getQuantity()) cout<<"Insufficient stock to sell"<<endl;
+                if(number > Product::productList.find(productID)->second.getQuantity())
+                    cout<<ANSI_YELLOW<<"Insufficient stock to sell"<<ANSI_RESET<<endl;
                 else
                 {
                     set<string> currentSales;
@@ -180,11 +194,26 @@ void OrderDetail::CreateSale(const string &orderID)
             }
         }
         else
-            cout<<"Non-existing product!"<<endl;
+            cout<<ANSI_YELLOW<<"Non-existing product!"<<ANSI_RESET<<endl;
     }
-    Watch::UpdateWatch();
+    //overwrite watch data
+    ofstream watchFile;
+    watchFile.open("Watch.txt");
+    if(!watchFile.is_open())
+    {
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        return;
+    }
+    watchFile<<endl;
+    for(auto currentWatch : Watch::watchList)
+    {
+            watchFile<<currentWatch.second.getProductID()<<","
+                      <<currentWatch.second.getSerie()<<","
+                      <<currentWatch.second.getAvailability()<<endl;
+    }
+    watchFile.close();
+
     outputFile.close();
-    cout<<"Information written to file."<<endl;
 }
 void OrderDetail::EraseSale(const string& orderID)
 {
@@ -192,7 +221,7 @@ void OrderDetail::EraseSale(const string& orderID)
     outputFile.open("OrderDetail.txt");
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     for(auto sale : saleList)
@@ -215,7 +244,7 @@ void OrderDetail::DeleteSale()
     outputFile.open("OrderDetail.txt");
     if(!outputFile.is_open())
     {
-        cout<<"Error: Unable to open the file."<<endl;
+        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     saleList.clear();
