@@ -1,12 +1,23 @@
-#include<iostream>
-#include<fstream>
-#include<cstring>
-#include<string>
-#include<map>
-using namespace std;
-
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
+
+#include<iostream>
+#include<conio.h>
+#include<fstream>
+#include<cstring>
+#include<ctime>
+#include<iomanip>
+#include<sstream>
+#include<iomanip>
+#include<cstdlib> // For system("cls")
+#include<unistd.h> // For sleep (sleep function on Unix-like systems)
+#include<windows.h>
+#include<vector>
+#include<map>
+#include<set>
+using namespace std;
+
+class Order;
 class Customer
 {
     string phone;
