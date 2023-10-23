@@ -1,18 +1,23 @@
-#include"Customer.h"
-#include"Product.h"
-#include"Order.h"
-#include"ProductOrder.h"
-#include"StatisticReport.h"
-
 #ifndef MYFUNCTION_H
 #define MYFUNCTION_H
-//map<string, Customer> customerList;
-void FilestreamCustomer(map<string, Customer> customerList);
-void CreateCustomer(map<string, Customer> customerList);
-void myCreateCustomer();
-void ReadCustomer(map<string, Customer> customerList);
-void UpdateCustomer(map<string, Customer> customerList);
-void DeleteCustomer(map<string, Customer> customerList);
+
+#include"StatisticReport.h"
+
+void gotoxy(int x, int y);
+void delay(int milliseconds);
+void runMessage(string message);
+int enterPassword();
+
+// Function prototypes
+void displayMainMenu();
+
+void myLoad();
+void myCustomer();
+void myCategory();
+void myProduct();
+void myOrder();
+void myStatisticReport();
+
+void Execute_Menu();
+
 #endif // MYFUNCTION_H
-
-
