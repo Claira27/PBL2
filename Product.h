@@ -27,8 +27,9 @@ struct Description
     string gender;
     string type; // daily dress complicated pilot field dive racing travel luxury other
 };
-class Watch;
 class Category;
+class Watch;
+
 class Product
 {
     string ID;
@@ -36,11 +37,12 @@ class Product
     double price;
     int quantity;
     Description feature;
-public:
-    friend class OrderDetail;
+protected:
     static map<string, Product> productList;
     static int numberOfProduct;
+public:
     friend class Category;
+    friend class Watch;
     Product();
     //Get information
     string getID() const;
