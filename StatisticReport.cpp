@@ -45,7 +45,7 @@ void StatisticsReport::ProductByCategory()
     else if(choice == 2)
     {
         cout<<ANSI_CYAN<<"============================================================================================"<<endl;
-        cout << "Category   |   Number\t|\tProducts" << endl;
+        cout << "Category|   Number\t|\tProducts" << endl;
         for (const auto& entry : productByCategory)
         {
             cout<<entry.first<<"\t|\t"<<productCountByCategory[entry.first]<<"\t| ";
