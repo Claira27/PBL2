@@ -1,27 +1,14 @@
 #ifndef STATISTICREPORT_H
 #define STATISTICREPORT_H
-#include<iostream>
-#include<conio.h>
-#include<fstream>
-#include<cstring>
-#include<ctime>
-#include<iomanip>
-#include<sstream>
-#include<iomanip>
-#include<cstdlib> // For system("cls")
-#include<unistd.h> // For sleep (sleep function on Unix-like systems)
-#include<windows.h>
-#include<vector>
-#include<map>
-#include<set>
-using namespace std;
+
 #include"Order.h"
 #include"Category.h"
 #include"Customer.h"
 #include"OrderDetail.h"
 #include"Product.h"
 #include"Watch.h"
-class StatisticsReport {
+class StatisticsReport :public Order, public Category, public Customer, public OrderDetail, public Product, public Watch
+{
 public:
     // Report the quantity of products by category
     static void ProductByCategory();
