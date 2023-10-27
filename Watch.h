@@ -23,21 +23,21 @@ class Watch
     string productID;
     string serie;
     bool availability;
-public:
+protected:
     static map<string, Watch> watchList;
     static int numberOfWatch;
+public:
     friend class Product;
-    friend class Order;
-    friend class OrderDetail;
     Watch();
     Watch(const string &ProductID, const string &serie, const bool avail = true);
     //Get information
-    string getID() const;
+    void setID();
+    string getID();
     string getProductID() const;
     string getSerie() const;
     bool getAvailability () const;
     //Mutator functions
-    void setID();
+
     void setProductID(string productID);
     void setSerie(string serie);
     void setAvailability(bool avail);
