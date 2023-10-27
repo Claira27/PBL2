@@ -31,9 +31,11 @@ class Category
     //Type and sex
     string ID;
     string name;
-public:
+protected:
     static map<string, Category> categoryList;
     static int numberOfCategory;
+public:
+    friend class Product;
     Category();
     Category(const string &ID, const string &name);
     //Get information
