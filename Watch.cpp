@@ -1,5 +1,4 @@
 #include"Watch.h"
-#include"OrderDetail.h"
 // ANSI color codes for text
 const string ANSI_RESET = "\033[0m";
 const string ANSI_RED = "\033[31m";
@@ -15,8 +14,13 @@ Watch::Watch() : productID("NULL"), serie(" "), availability(false){}
 Watch::Watch(const string &productID, const string &serie, const bool avail) :
     productID(productID), serie(serie), availability(avail) {}
 //Get information
-string Watch::getID() const
+void Watch::setID()
 {
+    this->ID = productID + serie;
+}
+string Watch::getID()
+{
+    setID();
     return ID;
 }
 string Watch::getProductID() const
@@ -32,10 +36,7 @@ bool Watch::getAvailability() const
     return availability;
 }
 //Mutator functions
-void Watch::setID()
-{
-    this->ID = productID + serie;
-}
+
 void Watch::setProductID(string productID)
 {
     this->productID = productID;
@@ -58,24 +59,22 @@ istream &operator>>(istream &is, Watch &myWatch)
     is>>myWatch.availability;
     return is;
 }
-ostream &operator<<(ostream &os, const Watch &myWatch)
-{
-    os<< ANSI_GREEN<<myWatch.productID<<"\t"<<myWatch.serie<<"\t"<<myWatch.availability<< ANSI_RESET<<endl;
-    return os;
-}
+
 void Watch::WatchLoad()
 {
     ifstream inputFile("Watches.txt");
     if (!inputFile)
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
-        return;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
     }
-    Watch watch;
-    while (inputFile >> watch)
+    else
     {
-        watchList[watch.getID()] = watch; // Add a new watch
-        numberOfWatch++;
+        Watch watch;
+        while (inputFile >> watch)
+        {
+            watchList[watch.getID()] = watch; // Add a new watch
+            numberOfWatch++;
+        }
     }
     inputFile.close();
 }
@@ -83,51 +82,73 @@ int Watch::getNumberOfWatch()
 {
     return numberOfWatch;
 }
+ostream &operator<<(ostream &os, const Watch &myWatch)
+{
+    cout<<"---------------------------------------------------------------"<<endl;
+    os<<setw(6)<<"|"<< ANSI_GREEN<<setw(16)<<left<<myWatch.productID<<ANSI_RESET<<setw(6)<<left<<"|"<< ANSI_GREEN<<setw(16)<<left<<myWatch.serie<<ANSI_RESET<<setw(3)<<left<<"|"<< ANSI_GREEN<<setw(13)<<left<<myWatch.availability<< ANSI_RESET<<"|"<<endl;
+    return os;
+}
 void Watch::ReadWatch(const string &productID)
 {
-    cout << "Fetching watch data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
-    sleep(2000000); // Sleep for 2 seconds
-    cout<< ANSI_CYAN <<"Product ID\tSerie\tAvailability"<< ANSI_RESET<<endl;
-    for(const auto& pair : watchList)
-        cout<<pair.second;
+    int check;
+    //cout << "Fetching watch data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+
+    cout<<endl;
+    cout<< "\t\t\t\t\t\t"<<setw(6)<<left<<"|"<< ANSI_CYAN <<setw(16)<<left<<"Product ID"<<ANSI_RESET<<setw(6)<<left<<"|"<< ANSI_CYAN<<setw(16)<<left<<"Serie"<<ANSI_RESET<<setw(3)<<left<<"|"<< ANSI_CYAN<<setw(13)<<left<<"Availability"<< ANSI_RESET<<"|"<<endl;
+    for(auto watch : watchList)
+        if(watch.second.getProductID() == productID)
+        {
+            cout<< "\t\t\t\t\t\t"<<watch.second;
+            check =1;
+        }
+    if(!check)
+    {
+        cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"There are no items of product "<<productID<<" in stock!"<<ANSI_RESET<<endl;
+        Sleep(1000);
+    }
+    else
+    {
+         cout<< "\t\t\t\t\t\t"<<"---------------------------------------------------------------"<<endl;
+         getch();
+    }
 }
 
 void Watch::CreateWatch(const string &productID)
 {
     ofstream outputFile;
-    outputFile.open("Watch.txt", std::ios::app);
+    outputFile.open("Watches.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new watches
     int num;
     do
     {
-        cout<<"Enter the number of new watches to create: ";
+        cout<< "\t\t\t\t\t\t"<<"Enter the number of new watches to create: ";
         cin>>num;
-        if(num  > 100)
+        if(num  > 10)
         {
-            cout<<ANSI_YELLOW << "No more than 100 watches to create at a time"<<ANSI_RESET << endl;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW << "No more than 10 watches to create at a time"<<ANSI_RESET << endl;
         }
-    }while(num > 100);
+    }while(num > 10);
     //Create new watch
     cin.ignore();
-    while(num--)
+    int i=num;
+    while(i)
     {
         // add new watch's information
         Watch newWatch;
         string serie;
-        cout << "Enter watch serie: ";
+        cout<< "\t\t\t\t\t\t" << "Enter watch serie: ";
         getline(cin, serie);
         bool avail;
-        cout<< "Enter watch availability: ";
+        cout<< "\t\t\t\t\t\t"<< "Enter watch availability: ";
         cin>>avail;
         if(watchList.count(productID + serie))
         {
-            cout<<ANSI_YELLOW<<"Watch already existed"<<ANSI_RESET<<endl;
-            num++;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Watch already existed"<<ANSI_RESET<<endl;
         }
         else
         {
@@ -142,40 +163,50 @@ void Watch::CreateWatch(const string &productID)
                       <<newWatch.getSerie()<<","
                       <<newWatch.getAvailability()<<endl;
             numberOfWatch++;
+            num--;
         }
     }
+    if(!num) cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"There are no items in your stock! Add items later"<<ANSI_RESET<<endl;
     outputFile.close();
 
 }
 int Watch::ReferenceConstraint(const string& ID)
 {
-    for(auto watch : OrderDetail::saleList)
-    {
-        if(watch.second.getIDSerie() == ID)
+    //for(auto watch : OrderDetail::saleList)
+    //    if(watch.second.getIDSerie() == ID)
             return 1;
-    }
     return 0;
 }
 void Watch::EraseWatch(const string &productID)
 {
     ofstream outputFile;
-    outputFile.open("Watch.txt");
+    outputFile.open("Watches.txt");
     if(!outputFile.is_open())
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
-    for(auto watch : watchList)
+    auto it = watchList.begin();
+    while (it != watchList.end())
     {
-        if(watch.second.getProductID() == productID)
+        if (it->second.getProductID() == productID)
         {
-            if(!ReferenceConstraint(watch.first))
-                {
-                    watchList.erase(watch.first);
-                    numberOfWatch--;
-                }
+            if (!ReferenceConstraint(it->first))
+            {
+                it = watchList.erase(it);
+                numberOfWatch--;
+            }
+            else
+            {
+                ++it;
+            }
+        }
+        else
+        {
+            ++it;
         }
     }
+
     //Overwriting the file to erase watches
     outputFile<<endl;
     for(auto currentWatch : watchList)
@@ -189,14 +220,14 @@ void Watch::EraseWatch(const string &productID)
 void Watch::UpdateWatch(const string &productID)
 {
     ofstream outputFile;
-    outputFile.open("Watch.txt");
+    outputFile.open("Watches.txt");
     if(!outputFile.is_open())
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     string serie;
-    cout<<"Enter serie of watch: "; getline(cin, serie);
+    cout<< "\t\t\t\t\t\t"<<"Enter serie of watch: "; getline(cin, serie);
     for(auto watch : watchList)
     {
         if(watch.first == productID + serie)
@@ -208,12 +239,12 @@ void Watch::UpdateWatch(const string &productID)
                 newWatch.setSerie(serie);
                 newWatch.setID();
                 bool avail;
-                cout<<"Enter new availability state of watch: "; cin>>avail;
+                cout<< "\t\t\t\t\t\t"<<"Enter new availability state of watch: "; cin>>avail;
                 newWatch.setAvailability(avail);
                 watchList.erase(productID + serie);
                 watchList[productID + serie] = newWatch;
             }
-            else cout<<ANSI_YELLOW<<"Reference constraint!"<<ANSI_RESET<<endl;
+            else cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Reference constraint!"<<ANSI_RESET<<endl;
         }
     }
     //Overwriting the file to update categories
@@ -224,6 +255,6 @@ void Watch::UpdateWatch(const string &productID)
                       <<currentWatch.second.getSerie()<<","
                       <<currentWatch.second.getAvailability()<<endl;
     }
-    outputFile<<ANSI_YELLOW<<"Watches in stock have been updated."<<ANSI_RESET<<endl;
+    outputFile<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Watches in stock have been updated."<<ANSI_RESET<<endl;
     outputFile.close();
 }
