@@ -44,7 +44,7 @@ void StatisticsReport::ProductByCategory()
     }
     else if(choice == 2)
     {
-        cout<<ANSI_CYAN<<"============================================================================================"<<endl;
+        cout<<ANSI_CYAN<<"================================================================================================================"<<endl;
         cout << "Category|   Number\t|\tProducts" << endl;
         for (const auto& entry : productByCategory)
         {
@@ -56,7 +56,7 @@ void StatisticsReport::ProductByCategory()
             }
             cout<<endl;
         }
-        cout<<endl<<"============================================================================================"<<endl;
+        cout<<endl<<"================================================================================================================"<<endl;
         cout<<ANSI_RESET<<endl;
     }
     else cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Invalid instruction!"<<ANSI_RESET<<endl;
