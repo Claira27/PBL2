@@ -56,7 +56,7 @@ void StatisticsReport::ProductByCategory()
             }
             cout<<endl;
         }
-        cout<< "\t\t\t\t\t\t"<<endl<<"============================================================================================"<<endl;
+        cout<<endl<<"============================================================================================"<<endl;
         cout<<ANSI_RESET<<endl;
     }
     else cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Invalid instruction!"<<ANSI_RESET<<endl;
