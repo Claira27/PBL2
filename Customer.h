@@ -17,15 +17,14 @@
 #include<set>
 using namespace std;
 
-class Order;
 class Customer
 {
     string phone;
     string name;
-public:
-    friend class Order;
+protected:
     static int numberOfCustomer;
     static map<string, Customer> customerList;
+public:
     Customer();
     Customer(const string &phone, const string &name);
     //Get information
@@ -40,12 +39,8 @@ public:
     static void CustomerLoad();
     static int getNumberOfCustomer();
     static void ReadCustomer();
-    static void FindCustomer();
-    static void CreateCustomerList();
     static void createNewCustomer(const string &phone);//using when new order with new customer
-    static int ReferenceConstraint(const string &phone);
-    static void EraseCustomer();
-    static void UpdateCustomer();
+
 };
 
 #endif // CUSTOMER_H
