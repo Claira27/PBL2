@@ -45,14 +45,14 @@ void StatisticsReport::ProductByCategory()
     else if(choice == 2)
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_CYAN<<"============================================================================================"<<endl;
-        cout<< "\t\t\t\t\t\t" << "Category   |   Number\t|\tProducts" << endl;
+        cout << "Category   |   Number\t|\tProducts" << endl;
         for (const auto& entry : productByCategory)
         {
             cout<< "\t\t\t\t\t\t"<<entry.first<<"\t|\t"<<productCountByCategory[entry.first]<<"\t| ";
             vector<string> productsInCategory = entry.second;
             for (string productName : productsInCategory)
             {
-                cout<< "\t\t\t\t\t\t" << " * " << productName;
+                cout << " * " << productName;
             }
             cout<<endl;
         }
