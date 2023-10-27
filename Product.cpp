@@ -55,18 +55,18 @@ void Product::setFeature()
     string gender;
     string type;
     cin.ignore();
-    cout<<"Enter strap material: "; getline(cin, strap);
-    cout<<"Enter color: "; getline(cin, color);
-    cout<<"Enter brand: "; getline(cin, brand);
-    cout<<"Enter origin: "; getline(cin, origin);
-    cout<<"Enter gender: "; getline(cin, gender);
-    cout<<"Enter type: "; getline(cin, type);
+    cout<< "\t\t\t\t\t\t"<<"Enter strap material: "; getline(cin, strap);
+    cout<< "\t\t\t\t\t\t"<<"Enter color: "; getline(cin, color);
+    cout<< "\t\t\t\t\t\t"<<"Enter brand: "; getline(cin, brand);
+    cout<< "\t\t\t\t\t\t"<<"Enter origin: "; getline(cin, origin);
+    cout<< "\t\t\t\t\t\t"<<"Enter gender: "; getline(cin, gender);
+    cout<< "\t\t\t\t\t\t"<<"Enter type: "; getline(cin, type);
     int check1=0, check2=0;
     this->feature.gender = "NULL";
     for(auto genderID : Category::categoryList)
         if(gender == genderID.second.getName())
         {
-            this->feature.gender = gender;
+            this->feature.gender = genderID.second.getID();
             check1 = 1;
         }
 
@@ -74,7 +74,7 @@ void Product::setFeature()
     for(auto typeID : Category::categoryList)
         if(type == typeID.second.getName())
         {
-            this->feature.type = type;
+            this->feature.type = typeID.second.getID();
             check2 = 1;
         }
 
@@ -83,7 +83,7 @@ void Product::setFeature()
     this->feature.brand = brand;
     this->feature.origin = origin;
     if(!check1 || !check2 )
-        cout<<ANSI_YELLOW<<"The features of this product do not match any classifying category. They will be set NULL value instead"<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"The features of this product do not match any classifying category. They will be set NULL value instead"<<ANSI_RESET<<endl;
 }
 istream &operator>>(istream &is, Product &myProduct)
 {
@@ -99,56 +99,83 @@ istream &operator>>(istream &is, Product &myProduct)
     getline(is, myProduct.feature.type, ',');
     return is;
 }
-ostream &operator<<(ostream &os, const Product &myProduct)
-{
-    os<< ANSI_GREEN<<myProduct.ID<<"\t"<<myProduct.name<<"\t"<<myProduct.price<<"\t"<<myProduct.quantity<<"\t"
-      <<myProduct.feature.strap<<"\t"<<myProduct.feature.color<<"\t"<<myProduct.feature.brand<<"\t"<<myProduct.feature.origin<<"\t"
-      <<myProduct.feature.gender<<"\t"<<myProduct.feature.type<< ANSI_RESET<<endl;
-    return os;
-}
+
 void Product::ProductLoad()
 {
     ifstream inputFile("Products.txt");
     if (!inputFile)
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     Product product;
     while (inputFile >> product)
     {
-        Product::productList[product.getID()] = product; // Add a new customer
-        Product::numberOfProduct++;
+        productList[product.getID()] = product; // Add a new customer
+        numberOfProduct++;
     }
     inputFile.close();
 }
 int Product::getNumberOfProduct()
 {
-    return Product::numberOfProduct;
+    return numberOfProduct;
+}
+ostream &operator<<(ostream &os, const Product &myProduct)
+{
+
+    os<<setw(2)<<"|"<< ANSI_GREEN<<setw(10)<<left<<myProduct.ID
+        <<ANSI_RESET<<setw(4)<<left<<"|"<< ANSI_GREEN<<setw(24)<<left<<myProduct.name
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_GREEN<<setw(8)<<left<<myProduct.price
+        <<ANSI_RESET<<setw(4)<<left<<"|"<< ANSI_GREEN<<setw(6)<<left<<myProduct.quantity
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_GREEN<<setw(20)<<left<<myProduct.feature.strap
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_GREEN<<setw(14)<<left<<myProduct.feature.color
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_GREEN<<setw(18)<<left<<myProduct.feature.brand
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_GREEN<<setw(16)<<left<<myProduct.feature.origin<< ANSI_RESET <<"|"<< endl;
+    return os;
 }
 void Product::ReadProduct()
 {
-    system("cls");
-    cout << "Fetching product data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
-    sleep(2000000); // Sleep for 2 seconds
-    cout<< ANSI_CYAN <<"Product ID\tName\tPrice\tQuantity\tStrap Material\tColor\tBrand\tOrigin\tGender\tType"<< ANSI_RESET<<endl;
-    for(const auto& pair : Product::productList)
+    //system("cls");
+    cout << "\t\t\t\t\t\t"<< "Fetching product data..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    Sleep(500); // Sleep for 2 seconds
+    cout<<ANSI_YELLOW<<setw(25)<<" "<<"======================Product information===================="<<ANSI_RESET<<endl;
+    cout<<endl;
+    cout<<setw(2)<<left<<"|"<< ANSI_CYAN <<setw(10)<<left<<"Product ID"
+        <<ANSI_RESET<<setw(8)<<left<<"|"<< ANSI_CYAN<<setw(20)<<left<<"Name"
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_CYAN<<setw(8)<<left<<"Price"
+        <<ANSI_RESET<<setw(2)<<left<<"|"<< ANSI_CYAN<<setw(6)<<left<<"Quantity"
+        <<ANSI_RESET<<setw(4)<<left<<"|"<< ANSI_CYAN<<setw(18)<<left<<"Strap Material"
+        <<ANSI_RESET<<setw(4)<<left<<"|"<< ANSI_CYAN<<setw(12)<<left<<"Color"
+        <<ANSI_RESET<<setw(6)<<left<<"|"<< ANSI_CYAN<<setw(14)<<left<<"Brand"
+        <<ANSI_RESET<<setw(6)<<left<<"|"<< ANSI_CYAN<<setw(12)<<left<<"Origin"<< ANSI_RESET<<"|"<<endl;
+    for(const auto& pair : productList)
+    {
+        cout<<"-----------------------------------------------------------------------------------------------------------------------------------------"<<endl;
         cout<<pair.second;
+    }
+
+    cout<<"-----------------------------------------------------------------------------------------------------------------------------------------"<<endl;
+    getch();
 }
 void Product::FindProduct()
 {
-    system("cls");
+    //system("cls");
     string ID;
-    cout<<"Enter product ID: "; getline(cin, ID);
-    auto currentProduct = Product::productList.find(ID);
-    if(currentProduct != Product::productList.end() && currentProduct->second.getID() != " ")
+    cin.ignore();
+    cout<< "\t\t\t\t\t\t"<<"Enter product ID: "; getline(cin, ID);
+    auto currentProduct = productList.find(ID);
+    if(currentProduct != productList.end())
     {
-        cout<<currentProduct->second;
+        system("cls");
+        cout<< "\t\t\t\t"<<ANSI_YELLOW<<"======================Watch information===================="<<ANSI_RESET<<endl;
+        cout<< "\t\t\t"<<currentProduct->second<<endl;
         Watch::ReadWatch(ID);
+        Sleep(50);
     }
     else
     {
-        cout<<ANSI_YELLOW<<"Non-existing product ID"<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Non-existing product ID"<<ANSI_RESET<<endl;
+        Sleep(2000);
         return;
     }
 }
@@ -159,20 +186,20 @@ void Product::CreateProduct()
     outputFile.open("Products.txt", std::ios::app);
     if(!outputFile.is_open())
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of new products
     int num;
     do
     {
-        cout<<"Enter the number of new products to create: ";
+        cout<< "\t\t\t\t\t\t"<<"Enter the number of new products to create: ";
         cin>>num;
-        if(num > 100)
+        if(num > 10)
         {
-            cout<<ANSI_YELLOW << "No more than 10 products to create at a time"<<ANSI_RESET << endl;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW << "No more than 10 products to create at a time"<<ANSI_RESET << endl;
         }
-    }while(num > 100);
+    }while(num > 10);
     //Create new product
     cin.ignore();
     while(num--)
@@ -181,18 +208,16 @@ void Product::CreateProduct()
         string ID, name;
         double price;
         int quantity;
-        cout<<"Enter product ID: "; getline(cin, ID);
+        cout<< "\t\t\t\t\t\t"<<"Enter product ID: "; getline(cin, ID);
         if(Product::productList.count(ID))
         {
-            cout<<ANSI_YELLOW<<"Product ID already existed"<<ANSI_RESET<<endl;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Product ID already existed"<<ANSI_RESET<<endl;
             num++;
         }
         else
         {
-            cout<<"Enter product name: "; getline(cin, name);
-            cout<<"Enter product price: "; cin>>price;
-            //create new watches with serie and availability
-            Watch::CreateWatch(ID);
+            cout<< "\t\t\t\t\t\t"<<"Enter product name: "; getline(cin, name);
+            cout<< "\t\t\t\t\t\t"<<"Enter product price: "; cin>>price;
 
             //set information of new product
             product.setID(ID);
@@ -213,12 +238,15 @@ void Product::CreateProduct()
                       <<product.getFeature().gender<<","
                       <<product.getFeature().type<<","<<endl;
             Product::numberOfProduct++;
+            //create new watches with serie and availability
+            Watch::CreateWatch(ID);
         }
     }
-    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
-    sleep(2000000); // Sleep for 2 seconds
+    cout << "\t\t\t\t\t\t"<< "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    Sleep(1000); // Sleep for 2 seconds
     outputFile.close();
-    cout<<ANSI_GREEN<<"Information written to file."<<ANSI_RESET<<endl;
+    cout<< "\t\t\t\t\t\t"<<ANSI_GREEN<<"Information written to file."<<ANSI_RESET<<endl;
+    Sleep(1000);
 }
 int Product::ReferenceConstraint(string ID)
 {
@@ -234,18 +262,18 @@ void Product::Eraseproduct()
     outputFile.open("Products.txt");
     if(!outputFile.is_open())
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of Products to erase
     int num;
     do
     {
-        cout<<"Enter the number of products to erase: ";
+        cout<< "\t\t\t\t\t\t"<<"Enter the number of products to erase: ";
         cin>>num;
         if(num  > Product::numberOfProduct)
         {
-            cout<<ANSI_YELLOW << "Exceeded the number of existing products" <<ANSI_RESET<< endl;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW << "Exceeded the number of existing products" <<ANSI_RESET<< endl;
         }
     }while(num > Product::numberOfProduct);
     //erase products
@@ -254,11 +282,10 @@ void Product::Eraseproduct()
     while(i--)
     {
         string ID;
-        cout<<"Enter product ID: "; getline(cin, ID);
+        cout<< "\t\t\t\t\t\t"<<"Enter product ID: "; getline(cin, ID);
         if(!Product::productList.count(ID))
         {
-            cout<<ANSI_YELLOW<<"Non-existing product ID"<<ANSI_RESET<<endl;
-            num++;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Non-existing product ID"<<ANSI_RESET<<endl;
         }
         else
         {
@@ -269,14 +296,12 @@ void Product::Eraseproduct()
             }
             else
             {
-                cout<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
+                cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
                 int choice;
-                cout<<ANSI_GREEN<<"Do you want to erase individual watches of this product? (YES/NO):(1/0)"<<ANSI_RESET<<endl;
+                cout<< "\t\t\t\t\t\t"<<ANSI_GREEN<<"Do you want to erase individual watches of this product? (YES/NO):(1/0)"<<ANSI_RESET<<endl;
                 cin>>choice;
                 if(choice)
                     Watch::EraseWatch(ID);
-                else
-                    i++;
             }
         }
     }
@@ -296,10 +321,12 @@ void Product::Eraseproduct()
                   <<product.second.getFeature().gender<<","
                   <<product.second.getFeature().type<<","<<endl;
     }
-    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
-    sleep(2000000); // Sleep for 2 seconds
+    cout << "\t\t\t\t\t\t"<< "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    Sleep(1000);
+    cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<" products have been erased."<<ANSI_RESET<<endl;
+    Sleep(1000);// Sleep for 2 seconds
     outputFile.close();
-    cout<<ANSI_YELLOW<<num<<" products have been erased."<<ANSI_RESET<<endl;
+
 }
 void Product::UpdateProduct()
 {
@@ -308,31 +335,30 @@ void Product::UpdateProduct()
     outputFile.open("Product.txt");
     if(!outputFile.is_open())
     {
-        cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
+        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
         return;
     }
     //Enter the number of products to update
     int num;
     do
     {
-        cout<<"Enter the number of products to update: ";
+        cout<< "\t\t\t\t\t\t"<<"Enter the number of products to update: ";
         cin>>num;
         if(num  > Product::numberOfProduct)
         {
-            cout<<ANSI_YELLOW << "Exceeded the number of existing products" <<ANSI_RESET<< endl;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW << "Exceeded the number of existing products" <<ANSI_RESET<< endl;
         }
     }while(num > Product::numberOfProduct);
     //Update product
     cin.ignore();
     int i = num;
-    for(int i=1; i<=num; i++)
+    while(num)
     {
         string ID;
-        cout<<"Enter product ID: "; getline(cin, ID);
+        cout<< "\t\t\t\t\t\t"<<"Enter product ID: "; getline(cin, ID);
         if(!Product::productList.count(ID))
         {
-            cout<<ANSI_YELLOW<<"Non-existing product ID"<<ANSI_RESET<<endl;
-            num++;
+            cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Non-existing product ID"<<ANSI_RESET<<endl;
         }
         else
         {
@@ -343,16 +369,15 @@ void Product::UpdateProduct()
                 double price;
                 int quantity;
                 Product::productList.erase(ID);
-                cout<<"Enter product ID: "; getline(cin, ID);
-                if(!Product::productList.count(ID))
+                cout<< "\t\t\t\t\t\t"<<"Enter product ID: "; getline(cin, ID);
+                if(Product::productList.count(ID))
                 {
-                    cout<<ANSI_YELLOW<<"Product ID does not exist, try again!"<<ANSI_RESET<<endl;
-                    num++;
+                    cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"Product ID does exist, try again!"<<ANSI_RESET<<endl;
                 }
                 else
                 {
-                    cout<<"Enter product name: "; getline(cin, name);
-                    cout<<"Enter product price: "; cin>>price;
+                    cout<< "\t\t\t\t\t\t"<<"Enter product name: "; getline(cin, name);
+                    cout<< "\t\t\t\t\t\t"<<"Enter product price: "; cin>>price;
                     cin.ignore();
                     product.setID(ID);
                     product.setName(name);
@@ -361,17 +386,17 @@ void Product::UpdateProduct()
                     product.setFeature();
                     Product::productList[ID] = product;
                     int choice;
-                    cout<<ANSI_GREEN<<"Do you want to update individual watches of this product? (YES/NO):(1/0)"<<ANSI_RESET<<endl;
+                    cout<< "\t\t\t\t\t\t"<<ANSI_GREEN<<"Do you want to update individual watches of this product? (YES/NO):(1/0)"<<ANSI_RESET<<endl;
                     cin>>choice;
                     if(choice) Watch::UpdateWatch(ID);
                 }
             }
             else
             {
-                cout<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
-                i++;
+                cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<"REFERENCE CONSTRAINT"<<ANSI_RESET<<endl;
             }
         }
+        num--;
     }
     //Overwriting the file to update products
     outputFile<<endl;
@@ -389,8 +414,10 @@ void Product::UpdateProduct()
                   <<product.second.getFeature().gender<<","
                   <<product.second.getFeature().type<<","<<endl;
     }
-    cout << "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
-    sleep(2000000); // Sleep for 2 seconds
+    cout << "\t\t\t\t\t\t"<< "Generating your update..." << ANSI_BLINK << "..." << ANSI_RESET << endl;
+    Sleep(1000);
+    cout<< "\t\t\t\t\t\t"<<ANSI_YELLOW<<" Updates have been made."<<ANSI_RESET<<endl;
+    Sleep(1000); // Sleep for 2 seconds
     outputFile.close();
-    cout<<ANSI_YELLOW<<num<<" Updates have been made."<<ANSI_RESET<<endl;
+
 }
