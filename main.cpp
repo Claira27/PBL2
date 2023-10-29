@@ -2,6 +2,6 @@
 
 int main()
 {
-    Execute_Menu();
+    myFunction::Run();
     return 0;
 }

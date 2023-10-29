@@ -1,0 +1,141 @@
+# depslib dependency file v1.0
+1698550118 source:g:\cudo\pbl2\category.cpp
+	"Category.h"
+	"Product.h"
+
+1698550118 g:\cudo\pbl2\category.h
+	<iostream>
+	<conio.h>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<iomanip>
+	<cstdlib>
+	<unistd.h>
+	<windows.h>
+	<vector>
+	<map>
+	<set>
+
+1698550118 g:\cudo\pbl2\product.h
+	<iostream>
+	<conio.h>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<iomanip>
+	<cstdlib>
+	<unistd.h>
+	<windows.h>
+	<vector>
+	<map>
+	<set>
+
+1698550118 source:g:\cudo\pbl2\customer.cpp
+	"Customer.h"
+
+1698550118 g:\cudo\pbl2\customer.h
+	<iostream>
+	<conio.h>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<iomanip>
+	<cstdlib>
+	<unistd.h>
+	<windows.h>
+	<vector>
+	<map>
+	<set>
+
+1698550118 source:g:\cudo\pbl2\date.cpp
+	"Date.h"
+
+1698550118 g:\cudo\pbl2\date.h
+	<bits/stdc++.h>
+
+1698550118 source:g:\cudo\pbl2\order.cpp
+	"Order.h"
+
+1698550118 g:\cudo\pbl2\order.h
+	<iostream>
+	<conio.h>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<iomanip>
+	<cstdlib>
+	<unistd.h>
+	<windows.h>
+	<vector>
+	<map>
+	<set>
+
+1698550118 source:g:\cudo\pbl2\orderdetail.cpp
+	"OrderDetail.h"
+
+1698550118 g:\cudo\pbl2\orderdetail.h
+	<iostream>
+	<conio.h>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<iomanip>
+	<cstdlib>
+	<unistd.h>
+	<windows.h>
+	<vector>
+	<map>
+	<set>
+
+1698550118 source:g:\cudo\pbl2\product.cpp
+	"Product.h"
+	"Category.h"
+	"Watch.h"
+
+1698550118 g:\cudo\pbl2\watch.h
+	<iostream>
+	<conio.h>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<iomanip>
+	<cstdlib>
+	<unistd.h>
+	<windows.h>
+	<vector>
+	<map>
+	<set>
+
+1698550118 source:g:\cudo\pbl2\statisticreport.cpp
+	"StatisticReport.h"
+
+1698550118 g:\cudo\pbl2\statisticreport.h
+	"Order.h"
+	"Category.h"
+	"Customer.h"
+	"OrderDetail.h"
+	"Product.h"
+	"Watch.h"
+
+1698550118 source:g:\cudo\pbl2\watch.cpp
+	"Watch.h"
+
+1698550462 source:g:\cudo\pbl2\main.cpp
+	"myFunctions.h"
+
+1698550524 g:\cudo\pbl2\myfunctions.h
+	"StatisticReport.h"
+

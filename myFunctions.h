@@ -47,6 +47,9 @@ class myFunction : public Order, public Category, public Customer, public OrderD
     static void Execute_Menu();
 public:
     static void Run();
+    static void layout(int site,int page);
+    static void display();
+    static void drawProductList(int page);
 };
 
 #endif // MYFUNCTION_H

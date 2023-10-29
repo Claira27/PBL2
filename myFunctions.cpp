@@ -1,4 +1,6 @@
 #include"myFunctions.h"
+#include <graphics.h>
+#include <algorithm>
 int myFunction::ReferConstraint_Customer(const string &phone)
 {
     for(auto order : Order::orderList)
@@ -1416,10 +1418,197 @@ void myFunction::Title()
     cout << "\t\t\t\t\t\t" << "-------------------------------------------------------------\n";
 
 }
+
+
+void hightlight()
+{
+    setcolor(CYAN);
+
+}
+void setDefault()
+{
+    setcolor(WHITE);
+}
+// 0 : landing page
+// 1 : product size
+// 2 : customer size
+// 3 : order size
+char* stringCv(const string& str) {
+    char* charArray = new char[str.length() + 1];
+    strcpy(charArray, str.c_str());
+    return charArray;
+}
+char* intCv(int value) {
+    int maxDigits = 12; // Adjust this based on the maximum digits an int can have
+    char* buffer = new char[maxDigits];
+
+    // Format the integer into a string
+    int length = snprintf(buffer, maxDigits, "%d", value);
+
+    if (length >= 0 && length < maxDigits) {
+        // The conversion was successful
+        return buffer;
+    } else {
+        // Handle the case where the buffer is too small or other errors
+        std::cerr << "Conversion failed due to insufficient buffer size or other error." << std::endl;
+        delete[] buffer; // Release the allocated memory
+        return nullptr; // Return nullptr to indicate an error
+    }
+}
+char* doubleCv(double value) {
+    // Determine the maximum possible number of characters
+    int maxChars = 20; // Adjust this number as needed
+    char* buffer = new char[maxChars];
+
+    // Format the double into a string with two decimal places
+    int length = snprintf(buffer, maxChars, "%.2f", value);
+
+    if (length >= 0 && length < maxChars) {
+        // The conversion was successful
+        return buffer;
+    } else {
+        // Handle the case where the buffer is too small or other errors
+        std::cerr << "Conversion failed due to insufficient buffer size or other error." << std::endl;
+        delete[] buffer; // Release the allocated memory
+        return nullptr; // Return nullptr to indicate an error
+    }
+}
+const int itemsPerPage = 5;
+void myFunction::drawProductList(int page)
+{
+    int y = 160;
+    int startIndex = (page-1)*itemsPerPage;
+    int endIndex = min(startIndex + itemsPerPage,static_cast<int> (productList.size()));
+  //  settextstyle(10, 0, 1);
+    outtextxy(60, y, "Product ID");
+    outtextxy(200, y, "Name");
+    outtextxy(470, y, "Price");
+    outtextxy(570, y, "Quantity");
+    outtextxy(670, y, "Strap Material");
+    outtextxy(860, y, "Color");
+    outtextxy(970, y, "Brand");
+    outtextxy(1100, y, "Origin");
+   // settextstyle(1, 0, 1);
+    y += 40;
+    cout<<startIndex<<" "<<endIndex<<endl;
+    int cnt = 1;
+    for ( auto item = productList.begin(); item != productList.end(); item++)
+
+    {
+        if (cnt>=startIndex )
+        {
+        outtextxy(60,y,stringCv(item->second.getID()));
+        outtextxy(200,y,stringCv(item->second.getName()));
+        outtextxy(470,y,doubleCv(item->second.getPrice()));
+        outtextxy(570,y,intCv(item->second.getQuantity()));
+        outtextxy(670,y,stringCv(item->second.getFeature().strap));
+        outtextxy(860,y,stringCv(item->second.getFeature().color));
+        outtextxy(970,y,stringCv(item->second.getFeature().brand));
+        outtextxy(1100,y,stringCv(item->second.getFeature().origin));
+
+        y+=50;
+        }
+        cnt++;
+        if (cnt>endIndex) break;
+    }
+
+}
+
+void myFunction::layout(int site,int page)
+{
+
+        int maxPages = productList.size()/itemsPerPage;
+        cleardevice();
+
+        setbkcolor(BLACK);
+
+        // Options bar
+        setcolor(WHITE);
+        rectangle(5, 5, 1275, 40);
+        if (site == 2) hightlight();
+        outtextxy(335, 15, "Customer Site");
+        setDefault();
+        if (site == 1) hightlight();
+        outtextxy(560, 15, "Product Site");
+        setDefault();
+        if (site == 3) hightlight();
+        outtextxy(785, 15, "Order Site");
+
+        setDefault();
+
+        //list
+
+        myFunction::drawProductList(page);
+
+
+
+        rectangle(50, 100,1230 ,700 );
+        //show products
+
+         // Pagination
+        setcolor(YELLOW);
+        rectangle(610, 750, 630, 770); // Previous Page ("<")
+        rectangle(650, 750, 670, 770); // Next Page (">")
+        outtextxy(615, 753,"<");
+        outtextxy(655, 753,">");
+        outtextxy(637, 753,intCv(page));
+        setcolor(WHITE);
+
+
+
+        while (true)
+        {
+            if (ismouseclick(WM_LBUTTONDOWN))
+            {
+                int x, y;
+                getmouseclick(WM_LBUTTONDOWN, x, y);
+                printf("Current mouse position: (%d, %d)\n", x, y);
+
+
+                if (x >= 610 && x <= 630 && y >= 750 && y <= 770)
+                if (page > 1)
+                {
+                    page--;
+                    layout(site,page);
+                }
+
+                if (x >= 650 && x <= 670 && y >= 750 && y <= 770)
+                if (page < maxPages)
+                {
+                    page++;
+                    layout(site,page);
+                }
+            }
+
+
+
+        }
+
+}
+void myFunction::display()
+{
+
+    int gd = DETECT, gm;
+    initwindow(1280,800, "Watch Store Layout");
+    int site = 1;
+    int page = 1;
+    while(1)
+    {
+
+    layout(site,page);
+
+    }
+    closegraph();
+}
 void myFunction::Run()
 {
     myLoad();
-    Title();
-    runMessage("WELCOME TO WATCH STORE MANAGEMENT SYSTEM ");
-    Execute_Menu();
-}
+    display();
+   // cout<<productList.size();
+//    for(const auto& item : productList)
+//    {
+//        cout<<"-----------------------------------------------------------------------------------------------------------------------------------------"<<endl;
+//        cout<<item.second.getName();
+//    }
+
+    }
