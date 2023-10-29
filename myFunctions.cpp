@@ -265,7 +265,7 @@ void myFunction::CreateSale(const string &orderID, time_t time)
     }
     //overwrite watch data
     ofstream watchFile;
-    watchFile.open("Watches.txt");
+    watchFile.open("Watch.txt");
     if(!watchFile.is_open())
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
@@ -321,7 +321,7 @@ void myFunction::EraseSale(const string &orderID)
 
     //overwrite watch data
     ofstream watchFile;
-    watchFile.open("Watches.txt");
+    watchFile.open("Watch.txt");
     if(!watchFile.is_open())
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
@@ -363,7 +363,7 @@ void UpdateSale(const string &orderID)
         }
     }
     ofstream outputFile;
-    outputFile.open("Watches.txt");
+    outputFile.open("Watch.txt");
     if(!outputFile.is_open())
     {
         cout<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;

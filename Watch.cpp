@@ -62,7 +62,7 @@ istream &operator>>(istream &is, Watch &myWatch)
 
 void Watch::WatchLoad()
 {
-    ifstream inputFile("Watches.txt");
+    ifstream inputFile("Watch.txt");
     if (!inputFile)
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
@@ -116,7 +116,7 @@ void Watch::ReadWatch(const string &productID)
 void Watch::CreateWatch(const string &productID)
 {
     ofstream outputFile;
-    outputFile.open("Watches.txt", std::ios::app);
+    outputFile.open("Watch.txt", std::ios::app);
     if(!outputFile.is_open())
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
@@ -180,7 +180,7 @@ int Watch::ReferenceConstraint(const string& ID)
 void Watch::EraseWatch(const string &productID)
 {
     ofstream outputFile;
-    outputFile.open("Watches.txt");
+    outputFile.open("Watch.txt");
     if(!outputFile.is_open())
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
@@ -220,7 +220,7 @@ void Watch::EraseWatch(const string &productID)
 void Watch::UpdateWatch(const string &productID)
 {
     ofstream outputFile;
-    outputFile.open("Watches.txt");
+    outputFile.open("Watch.txt");
     if(!outputFile.is_open())
     {
         cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
