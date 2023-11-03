@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="PBL2" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/PBL2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/PBL2" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Categories.txt" />
+		<Unit filename="Category.cpp" />
+		<Unit filename="Category.h" />
+		<Unit filename="Customer.cpp" />
+		<Unit filename="Customer.h" />
+		<Unit filename="Customers.txt" />
+		<Unit filename="Date.cpp" />
+		<Unit filename="Date.h" />
+		<Unit filename="Manage.cpp" />
+		<Unit filename="Manage.h" />
+		<Unit filename="Order.cpp" />
+		<Unit filename="Order.h" />
+		<Unit filename="OrderDetail.cpp" />
+		<Unit filename="OrderDetail.h" />
+		<Unit filename="OrderDetail.txt" />
+		<Unit filename="Orders.txt" />
+		<Unit filename="PBL2.cbp" />
+		<Unit filename="PBL2.layout" />
+		<Unit filename="Product.cpp" />
+		<Unit filename="Product.h" />
+		<Unit filename="Products.txt" />
+		<Unit filename="StatisticReport.cpp" />
+		<Unit filename="StatisticReport.h" />
+		<Unit filename="Watch.cpp" />
+		<Unit filename="Watch.h" />
+		<Unit filename="Watches.txt" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.o" />
+		<Unit filename="myFunctions.cpp" />
+		<Unit filename="myFunctions.h" />
+		<Extensions>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

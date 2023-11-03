@@ -2,19 +2,11 @@
 #define PRODUCT_H
 
 #include<iostream>
-#include<conio.h>
 #include<fstream>
 #include<cstring>
 #include<ctime>
-#include<iomanip>
 #include<sstream>
-#include<iomanip>
-#include<cstdlib> // For system("cls")
-#include<unistd.h> // For sleep (sleep function on Unix-like systems)
-#include<windows.h>
 #include<vector>
-#include<map>
-#include<set>
 using namespace std;
 
 
@@ -37,35 +29,22 @@ class Product
     double price;
     int quantity;
     Description feature;
-protected:
-    static map<string, Product> productList;
-    static int numberOfProduct;
 public:
-    friend class Category;
-    friend class Watch;
+    friend class Manage;
     Product();
     //Get information
     string getID() const;
     string getName() const;
     double getPrice() const;
-    void setQuantity();
     int getQuantity();
     Description getFeature() const;
     //Mutator functions
     void setID(const string &ID);
     void setName(const string &name);
     void setPrice(const double &price);
-    void setFeature();
+    void setQuantity();
+    void setFeature(Description feature);
     friend istream &operator>>(istream &is, Product &myProduct);
-    friend ostream &operator<<(ostream &os, const Product &myProduct);
-    static void ProductLoad();
-    static int getNumberOfProduct();
-    static void ReadProduct();
-    static void FindProduct();
-    static void CreateProduct();
-    static int ReferenceConstraint(string ID);
-    static void Eraseproduct();
-    static void UpdateProduct();
 };
 
 #endif // PRODUCT_H
