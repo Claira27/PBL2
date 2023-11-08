@@ -16,11 +16,10 @@ struct Description
     string color;
     string brand;
     string origin;
+    string coverage;
     string gender;
     string type; // daily dress complicated pilot field dive racing travel luxury other
 };
-class Category;
-class Watch;
 
 class Product
 {
@@ -42,7 +41,7 @@ public:
     void setID(const string &ID);
     void setName(const string &name);
     void setPrice(const double &price);
-    void setQuantity();
+    void setQuantity(int quantity);
     void setFeature(Description feature);
     friend istream &operator>>(istream &is, Product &myProduct);
 };

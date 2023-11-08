@@ -26,8 +26,8 @@ void Category::setName(const string &name)
 //Functions for CRUD
 istream &operator>>(istream &is, Category &myCategory)
 {
+    getline(is,myCategory.ID, '|');
+    getline(is,myCategory.name, '|');
     is.ignore();
-    getline(is,myCategory.ID, ',');
-    getline(is,myCategory.name, ',');
     return is;
 }

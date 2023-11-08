@@ -25,7 +25,7 @@ public:
     string getID();
     string getProductID() const;
     string getSerie() const;
-    bool getAvailability () const;
+    bool getAvailability() const;
     //Mutator functions
     void setProductID(string productID);
     void setSerie(string serie);

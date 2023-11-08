@@ -2,45 +2,31 @@
 #define CUSTOMER_H
 
 #include<iostream>
-#include<conio.h>
 #include<fstream>
 #include<cstring>
 #include<ctime>
 #include<iomanip>
 #include<sstream>
-#include<iomanip>
-#include<cstdlib> // For system("cls")
-#include<unistd.h> // For sleep (sleep function on Unix-like systems)
-#include<windows.h>
 #include<vector>
-#include<map>
-#include<set>
 using namespace std;
 
 class Customer
 {
+    string ID;
     string phone;
     string name;
-protected:
-    static int numberOfCustomer;
-    static map<string, Customer> customerList;
 public:
     Customer();
-    Customer(const string &phone, const string &name);
+    Customer(const string &ID, const string &phone, const string &name);
     //Get information
+    string getID() const;
     string getName() const;
     string getPhone() const;
-    //Mutator functions
+    void setID(string ID);
     void setName(string name);
     void setPhone(string phone);
-    //Functions for CRUD
-    friend istream &operator>>(istream &is, Customer &myCustomer);
-    friend ostream &operator<<(ostream &os, const Customer &myCustomer);
-    static void CustomerLoad();
-    static int getNumberOfCustomer();
-    static void ReadCustomer();
-    static void createNewCustomer(const string &phone);//using when new order with new customer
 
+    friend istream &operator>>(istream &is, Customer &myCustomer);
 };
 
 #endif // CUSTOMER_H

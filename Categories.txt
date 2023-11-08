@@ -1,8 +1,7 @@
-
-M01,Male,
-F01,Female,
-U01,Unisex,
-B01,daily,
-L02,luxury,
-T03,travel,
-D04,dress,
+B01|daily|
+D04|dress|
+F01|Female|
+L02|luxury|
+M01|Male|
+T03|travel|
+U01|Unisex|

@@ -1,25 +1,13 @@
 #include"Order.h"
 
-// ANSI color codes for text
-const string ANSI_RESET = "\033[0m";
-const string ANSI_RED = "\033[31m";
-const string ANSI_GREEN = "\033[32m";
-const string ANSI_YELLOW = "\033[33m";
-const string ANSI_CYAN = "\033[36m";
-const string ANSI_BOLD = "\033[1m";
-const string ANSI_BLINK = "\033[5m";
-
-int Order::numberOfOrder = 0;
-string Order::lastID = "0000";
-map<string, Order> Order::orderList;
 //Get information
 string Order::getID() const
 {
     return ID;
 }
-string Order::getCustomerPhone() const
+string Order::getCustomerID() const
 {
-    return customerPhone;
+    return customerID;
 }
 string Order::getInvoiceDate() const
 {
@@ -34,9 +22,9 @@ void Order::setID(const string &ID)
 {
     this->ID = ID;
 }
-void Order::setCustomerPhone(const string &customerPhone)
+void Order::setCustomerID(const string &customerID)
 {
-    this->customerPhone= customerPhone;
+    this->customerID = customerID;
 }
 void Order::setAmountDue(double amountDue)
 {
@@ -71,36 +59,12 @@ time_t Order::setInvoiceDate(const string &invoiceDate)
 //Functions for CRUD
 istream &operator>>(istream &is, Order &myOrder)
 {
-    is.ignore();
-    getline(is,myOrder.ID, ',');
-    getline(is,myOrder.customerPhone, ',');
-    getline(is,myOrder.invoiceDate, ',');
+    char tem;
+    getline(is,myOrder.ID, '|');
+    getline(is,myOrder.customerID, '|');
+    getline(is,myOrder.invoiceDate, '|');
     is>>myOrder.amountDue;
+    is>>tem;
+    is.ignore();
     return is;
-}
-
-void Order::OrderLoad()
-{
-    ifstream inputFile("Orders.txt");
-    if (!inputFile)
-    {
-        cout<< "\t\t\t\t\t\t"<<ANSI_RED<<"Error: Unable to open the file."<<ANSI_RESET<<endl;
-    }
-    Order order;
-    while (inputFile >> order)
-    {
-        orderList[order.getID()] = order; // Add a new order
-        numberOfOrder++;
-        //string lineFeed;
-        //inputFile>>lineFeed;
-    }
-    inputFile.close();
-    if (!orderList.empty())
-    {
-        lastID = orderList.rbegin()->first;
-    }
-
-}
-int Order::getNumberOfOrder() {
-    return numberOfOrder;
 }

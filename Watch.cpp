@@ -44,8 +44,10 @@ void Watch::setAvailability(bool avail)
 istream &operator>>(istream &is, Watch &myWatch)
 {
     is.ignore();
-    getline(is,myWatch.productID, ',');
-    getline(is,myWatch.serie, ',');
+    char tem;
+    getline(is,myWatch.productID, '|');
+    getline(is,myWatch.serie, '|');
     is>>myWatch.availability;
+    is>>tem;
     return is;
 }

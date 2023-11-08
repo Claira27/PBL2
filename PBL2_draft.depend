@@ -1,0 +1,86 @@
+# depslib dependency file v1.0
+1699315625 source:c:\clang\new\pbl2_draft\pbl2_draft\category.cpp
+	"Category.h"
+	"Product.h"
+
+1699026078 c:\clang\new\pbl2_draft\pbl2_draft\category.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<vector>
+
+1699150330 c:\clang\new\pbl2_draft\pbl2_draft\product.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<ctime>
+	<sstream>
+	<vector>
+
+1699357512 source:c:\clang\new\pbl2_draft\pbl2_draft\main.cpp
+	"Manage.h"
+
+1699348236 c:\clang\new\pbl2_draft\pbl2_draft\manage.h
+	"Order.h"
+	"Category.h"
+	"Customer.h"
+	"OrderDetail.h"
+	"Product.h"
+	"Watch.h"
+
+1699276558 c:\clang\new\pbl2_draft\pbl2_draft\watch.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<ctime>
+	<sstream>
+	<vector>
+
+1699280037 source:c:\clang\new\pbl2_draft\pbl2_draft\watch.cpp
+	"Watch.h"
+
+1699321076 source:c:\clang\new\pbl2_draft\pbl2_draft\product.cpp
+	"Product.h"
+
+1699166119 c:\clang\new\pbl2_draft\pbl2_draft\order.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<vector>
+
+1699165797 c:\clang\new\pbl2_draft\pbl2_draft\customer.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<vector>
+
+1699074187 c:\clang\new\pbl2_draft\pbl2_draft\orderdetail.h
+	<iostream>
+	<fstream>
+	<cstring>
+	<ctime>
+	<iomanip>
+	<sstream>
+	<vector>
+
+1699347411 source:c:\clang\new\pbl2_draft\pbl2_draft\customer.cpp
+	"Customer.h"
+
+1699351367 source:c:\clang\new\pbl2_draft\pbl2_draft\orderdetail.cpp
+	"OrderDetail.h"
+
+1699348492 source:c:\clang\new\pbl2_draft\pbl2_draft\order.cpp
+	"Order.h"
+
+1699355399 source:c:\clang\new\pbl2_draft\pbl2_draft\manage.cpp
+	"Manage.h"
+

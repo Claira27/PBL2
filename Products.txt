@@ -1,13 +1,11 @@
-
-A7SS00FD,Maurice Lacroix 39 mm,41760 15   stainless steel,teal,Maurice Lacroix,Switzerland,M01,D04,
-AI60S31D,Maurice Lacroix 39 mm,41760 0   stainless steel,teal,Maurice Lacroix,Switzerland,F01,D04,
-B640WADF,Casio 35 mm,1430 11   precious metals,Golden,Casio,Japan,U01,B01,
-B64T6OHH,Casio 35 mm,1570 4   precious metals,Golden Pink,Casio,Japan,F01,B01,
-J9P2H22N,Calvin Klein 30 mm,2500 14   leather,white,Calvin Klein,America,F01,T03,
-J9P2H37J,Calvin Klein 30 mm,2600 11   leather,Black,Calvin Klein,America,M01,T03,
-K4794410,Longines 37 mm,22700 17   leather,Golden,Longines,Switzerland,M01,L02,
-K4E2N11N,Calvin Klein 30 mm,2620 0   nylon,Blue,Calvin Klein,America,U01,T03,
-L4705212,Longines 37 mm,18500 15   leather,Golden,Longines,Switzerland,F01,L02,
-M1263312,Rolex 41 mm,346750 7   jubilee,Diamond Black,Rolex,Switzerland,M01,L02,
-NJ01501L,Citizen 40 mm,6200 17   precious metals,silver,Citizen,Japan,M01,B01,
-SNK807K2,Seiko 37 mm,4950 8   rubber,Blue Black,Seiko,Japan,M01,B01,
+A7SS00FD|Maurice Lacroix 39 mm|41760|14| stainless steel|teal|Maurice Lacroix|Switzerland|battery|M01|D04|
+AI60S31D|Maurice Lacroix 39 mm|41760|0| stainless steel|teal|Maurice Lacroix|Switzerland|battery|F01|D04|
+B640WADF|Casio 35 mm|1430|16| precious metals|Golden|Casio|Japan|battery|U01|B01|
+B64T6OHH|Casio 35 mm|1570|9| precious metals|Golden Pink|Casio|Japan|battery|F01|B01|
+J9P2H22N|Calvin Klein 30 mm|2500|14| leather|white|Calvin Klein|America|battery|F01|T03|
+J9P2H37J|Calvin Klein 30 mm|2600|11| leather|Black|Calvin Klein|America|battery|M01|T03|
+K4794410|Longines 37 mm|22700|18| leather|Golden|Longines|Switzerland|battery|M01|L02|
+L4705212|Longines 37 mm|18500|16| leather|Golden|Longines|Switzerland|battery|F01|L02|
+M1263312|Rolex 41 mm|346750|7| jubilee|Diamond Black|Rolex|Switzerland|battery|M01|L02|
+NJ01501L|Citizen 40 mm|6200|17| precious metals|silver|Citizen|Japan|battery|M01|B01|
+SNK807K2|Seiko 37 mm|4950|10| rubber|Blue Black|Seiko|Japan|battery|M01|B01|
